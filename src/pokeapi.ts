@@ -5,8 +5,13 @@ export class PokeAPI {
     //called each time PokeAPI is instantiated
 
     async fetchLocations(pageURL?: string): Promise<ShallowLocations> {
-        //work on this
-        url = `{GET https://pokeapi.co/api/v2/location-area/{id or name}/`
+        const url = pageURL ?? `{BASE_URL}/location-area`
+        
+        const response = await fetch(url);
+        const data = await response.json
+        //reesponse is the direct data from pokeAPI, data is after converting the data into a JSON and is in a more usable format
+
+        
     }
 
     async fetchLocation(locationName: string): Promise<Location> {
@@ -16,6 +21,8 @@ export class PokeAPI {
 }
 
 export type ShallowLocations = {
+    /* Shallow list is the full, unedit list of locations from PokeAPI
+    each entry in this list would be equivalent to a single location (?) */
     count: number;
     next: string | null;
     previous: string | null;
@@ -27,6 +34,7 @@ export type ShallowLocations = {
 
 
 export type Location = {
+    // Each entry from the shallow location list, goes in depth for each entry
     encounter_method_rates: Array<{
         encounter_method: {name: string; url: string};
         version_details: Array<{
