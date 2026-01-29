@@ -1,7 +1,7 @@
 export async function commandMapForward(state) {
     // If the next URL doens't exist, URL is undefined  
     let URL = state.nextLocationsURL ?? undefined;
-    const locations = await state.pokeapi.fetchLocations(URL);
+    const locations = await state.pokeAPI.fetchLocations(URL);
     for (const loc of locations.results) {
         console.log(loc.name);
     }
@@ -10,7 +10,7 @@ export async function commandMapForward(state) {
 }
 export async function commandMapBack(state) {
     let URL = state.prevLocationsURL ?? undefined;
-    const locations = await state.pokeapi.fetchLocations(URL);
+    const locations = await state.pokeAPI.fetchLocations(URL);
     for (const loc of locations.results) {
         console.log(loc.name);
     }
