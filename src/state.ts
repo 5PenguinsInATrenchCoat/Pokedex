@@ -2,6 +2,8 @@ import { createInterface, type Interface } from "readline";
 import { commandHelp } from "./command_help.js";
 import { commandExit } from "./command_exit.js";
 import { PokeAPI } from "./pokeapi.js";
+import { commandMap } from "./command_map.js";
+import { commandMapBack } from "./command_map.js";
 
 
 
@@ -31,6 +33,16 @@ export function getCommands(): Record<string, CLICommand> {
             description: "Lists all available commands",
             callback: commandHelp,
         },
+        map: {
+            name: "map",
+            description: "Show the next 20 locations",
+            callback: commandMap,
+        },
+        mapb: {
+            name: "mapb",
+            description: "Show the previous 20 locations",
+            callback: commandMapBack,
+        },
     };
 }
 
@@ -45,7 +57,7 @@ export function initState(): State {
         readline: REPL,
         commands: getCommands(),
         pokeapi: new PokeAPI(),
-        nextLocationsURL: "",
-        prevLocationsURL: "",
+        nextLocationsURL: string | null,
+        prevLocationsURL:string | null,
     };
 }
