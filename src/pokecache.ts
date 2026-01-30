@@ -16,12 +16,13 @@ export class Cache {
     get<T>(key: string): T | undefined {
         return this.#cache.get(key)?.val;
     }
-
+/*
     #reap() {
         for (const [key, entry] of this.#cache.entries()) {
             if (entry.createdAt < Date.now() - this.#interval) {
                 this.#cache.delete(entry.key);
             }
+*/
         }
     }
 }
