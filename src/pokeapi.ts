@@ -1,8 +1,15 @@
+import { Cache } from "./pokecache";
+
+
 export class PokeAPI {
     private static readonly BASE_URL = 'https://pokeapi.co/api/v2';
+    #cache: Cache;
 
-    constructor() {}
+    constructor() {
+        this.#cache = new Cache(5000);
+    }
     //called each time PokeAPI is instantiated
+    
 
     async fetchLocations(pageURL?: string): Promise<ShallowLocations> {
         const url = pageURL ?? `${PokeAPI.BASE_URL}/location-area?limit=20`
@@ -10,6 +17,8 @@ export class PokeAPI {
         const response = await fetch(url);
         const data = await response.json();
         //response is the direct data from pokeAPI, data is after converting the data into a JSON and is in a more usable format
+
+        this.#cache.add(url, data);
 
         return data as ShallowLocations;
         // data is already formatted as ShallowLocations, so we can just return it
