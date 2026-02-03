@@ -7,6 +7,7 @@ export class PokeAPI {
 
     constructor() {
         this.#cache = new Cache(5000);
+        // initialize cache with 5 second reap interval (5000 ms)
     }
     //called each time PokeAPI is instantiated
     
@@ -33,7 +34,22 @@ export class PokeAPI {
 
         return data as Location;
     }
+
+    async fetchLocationDetails(locationName: string): Promise<string[]> {
+        let areaURL = `${PokeAPI.BASE_URL}/location-area/${locationName}`;
+
+        const response = await fetch(areaURL);
+        const data = await response.json();
+
+        let pokemonList: string[] = [];
+        for (let entry of data.pokemon_encounters) {
+            pokemonList.push(entry.pokemon.name);
+        }
+
+        return pokemonList;
+    }
 }
+
 
 export type ShallowLocations = {
     /* Shallow list is the full, unedit list of locations from PokeAPI

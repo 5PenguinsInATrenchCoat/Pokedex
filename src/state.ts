@@ -4,6 +4,7 @@ import { commandExit } from "./command_exit.js";
 import { PokeAPI } from "./pokeapi.js";
 import { commandMapForward } from "./command_map.js";
 import { commandMapBack } from "./command_map.js";
+import { commandExplore } from "./command_explore.js";
 
 
 
