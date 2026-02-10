@@ -1,3 +1,4 @@
+import { types } from "node:util";
 import { Cache } from "./pokecache.js";
 
 
@@ -39,25 +40,23 @@ export class PokeAPI {
 
         return data as Location;
     }
-    /*
-    async fetchLocationDetails(locationName: string): Promise<string[]> {
-        let areaURL = `${PokeAPI.BASE_URL}/location-area/${locationName}`;
 
-        const response = await fetch(areaURL);
-        const data = await response.json();
-
-        this.#cache.add(areaURL, data);
-
-        let pokemonList: string[] = [];
-        for (let entry of data.pokemon_encounters) {
-            pokemonList.push(entry.pokemon.name);
+    async fetchPokemon(pokemonName: string): Promise<Pokemon> {
+        const pokeurl = `${PokeAPI.BASE_URL}/pokemon/${pokemonName}`;
+        
+        const response = await fetch(pokeurl);
+        
+        if (!response.ok) {
+        throw new Error(`${response.status} ${response.statusText}`);
         }
 
-        return pokemonList;
-    }
-    */
-}
+        const data = await response.json();
 
+        return data as Pokemon;
+    }
+
+
+}
 
 export type ShallowLocations = {
     /* Shallow list is the full, unedit list of locations from PokeAPI
@@ -104,5 +103,27 @@ export type Location = {
             version: {name: string; url: string};
             max_chance: number;
         }>;
+    }>;
+};
+
+export type Pokemon = {
+    name: string;
+    base_experience: number;
+    height: number;
+    weight: number;
+    stats: Array<{
+        base_stat: number;
+        effort: number;
+        stat: {
+            name: string;
+            url: string;
+        };
+    }>;
+    types: Array<{
+        slot: number; // 1 is primary type, 2 is secondary type
+        type: {
+            name: string;
+            url: string;
+        };
     }>;
 };
